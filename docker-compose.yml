@@ -1,0 +1,21 @@
+version: '2.2'
+services:
+  data1:
+    image: bwangel/objstorage
+    container_name: data1
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS="data1:8080"
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER="TODO"
+    volumes:
+      - hwc_es7data_hot:/storage_root/
+
+volumes:
+  data1:
+    driver: local
+
+networks:
+  objstorage:
+    driver: bridge

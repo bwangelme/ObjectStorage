@@ -7,10 +7,12 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	"github.com/bwangelme/ObjectStorage/conf"
 )
 
 func get(w http.ResponseWriter, r *http.Request) {
-	objectPath := path.Join(os.Getenv("STORAGE_ROOT"), "objects")
+	objectPath := path.Join(conf.StorageRoot, "objects")
 	name := strings.Split(r.URL.EscapedPath(), "/")[2]
 	f, err := os.Open(path.Join(objectPath, name))
 	if err != nil {
@@ -23,7 +25,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 }
 
 func put(w http.ResponseWriter, r *http.Request) {
-	objectPath := path.Join(os.Getenv("STORAGE_ROOT"), "objects")
+	objectPath := path.Join(conf.StorageRoot, "objects")
 	name := strings.Split(r.URL.EscapedPath(), "/")[2]
 	f, err := os.Create(path.Join(objectPath, name))
 	if err != nil {
@@ -36,6 +38,7 @@ func put(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Handler 处理文件的获取和添加请求
 func Handler(w http.ResponseWriter, r *http.Request) {
 	m := r.Method
 	if m == http.MethodGet {
