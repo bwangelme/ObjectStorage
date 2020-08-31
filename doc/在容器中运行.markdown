@@ -1,0 +1,11 @@
+## 构建镜像
+
+```bash
+docker build -t bwangel/objstorage:v0.1 .
+```
+
+## 使用 docker-compose 启动系统
+
+```bash
+docker-compose up -d
+```

@@ -14,12 +14,10 @@ import (
 	alocate "github.com/bwangelme/ObjectStorage/api/locate"
 )
 
-var isData = flag.Bool("data", false, "Is Running Data Node")
-
 func main() {
 	flag.Parse()
 
-	if *isData {
+	if conf.IsDataNode {
 		go heartbeat.StartHeartBeat()
 		go locate.StartLocate()
 		http.HandleFunc("/objects/", objects.Handler)
@@ -27,6 +25,7 @@ func main() {
 	} else {
 		go aheartbeat.ListenHeartBeat()
 		http.HandleFunc("/locate/", alocate.Handler)
+		http.HandleFunc("/data/nodes", aheartbeat.Handler)
 		log.Fatalln(http.ListenAndServe(conf.ListenAddress, nil))
 	}
 }

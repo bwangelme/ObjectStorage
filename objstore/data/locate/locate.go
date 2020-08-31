@@ -18,7 +18,7 @@ func Locate(name string) bool {
 func StartLocate() {
 	q := rabbitmq.New(conf.RabbitMQServer)
 	defer q.Close()
-	q.Bind("dataServers")
+	q.Bind(conf.DataServersExchange)
 	c := q.Consume()
 	for msg := range c {
 		object, e := strconv.Unquote(string(msg.Body))

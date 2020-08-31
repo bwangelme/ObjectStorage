@@ -1,16 +1,27 @@
 version: '2.2'
 services:
   data1:
-    image: bwangel/objstorage
+    image: bwangel/objstorage:v0.1
     container_name: data1
     networks:
       - objstorage
     environment:
-      - LISTEN_ADDRESS="data1:8080"
+      - LISTEN_ADDRESS=data1:8080
       - STORAGE_ROOT=/storage_root/
-      - RABBITMQ_SERVER="TODO"
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=true
     volumes:
-      - hwc_es7data_hot:/storage_root/
+      - data1:/storage_root/
+  api1:
+    image: bwangel/objstorage:v0.1
+    container_name: api1
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=api1:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=false
 
 volumes:
   data1:

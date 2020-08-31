@@ -3,18 +3,20 @@ package conf
 import (
 	"log"
 	"os"
+	"strings"
 )
 
 var (
-	ApiServersExchange = "apiServers"
-	DataServersExchange = "dataServers"
+	ApiServersExchange  = "api_servers"
+	DataServersExchange = "data_servers"
 )
 
 // 从外部环境变量读取的配置
 var (
-	ListenAddress string
-	StorageRoot   string
+	ListenAddress  string
+	StorageRoot    string
 	RabbitMQServer string
+	IsDataNode     bool
 )
 
 func init() {
@@ -26,10 +28,12 @@ func init() {
 
 	RabbitMQServer = os.Getenv("RABBITMQ_SERVER")
 	ErrOnEmpty(RabbitMQServer, "RABBITMQ_SERVER")
+
+	IsDataNode = strings.ToLower(os.Getenv("IS_DATA_NODE")) == "true"
 }
 
 func ErrOnEmpty(envVal, envName string) {
-	if envVal == ""	 {
+	if envVal == "" {
 		log.Fatalf("Need To Set %s\n", envName)
 	}
 }

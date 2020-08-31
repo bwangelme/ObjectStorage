@@ -1,8 +1,10 @@
 package heartbeat
 
 import (
+	"encoding/json"
 	"log"
 	"math/rand"
+	"net/http"
 	"strconv"
 	"sync"
 	"time"
@@ -90,4 +92,18 @@ func removeExpiredDataNodes() {
 		time.Sleep(5 * time.Second)
 		defaultDataNodes.RemoveExpiredNodes()
 	}
+}
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	m := r.Method
+	if m != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	nodes := defaultDataNodes.All()
+	res := map[string]interface{}{
+		"nodes": nodes,
+	}
+	b, _ := json.Marshal(res)
+	w.Write(b)
 }
