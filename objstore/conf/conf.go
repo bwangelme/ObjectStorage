@@ -7,7 +7,9 @@ import (
 )
 
 var (
-	ApiServersExchange  = "api_servers"
+	// APIServersExchange 维护数据节点信息的 Exchange
+	APIServersExchange = "api_servers"
+	// DataServersExchange 从数据节点定位文件的 Exchange
 	DataServersExchange = "data_servers"
 )
 
@@ -32,6 +34,7 @@ func init() {
 	IsDataNode = strings.ToLower(os.Getenv("IS_DATA_NODE")) == "true"
 }
 
+// ErrOnEmpty 目标值为 nil 时，程序退出，初始化失败
 func ErrOnEmpty(envVal, envName string) {
 	if envVal == "" {
 		log.Fatalf("Need To Set %s\n", envName)

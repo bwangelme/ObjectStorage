@@ -10,11 +10,13 @@ import (
 	"github.com/bwangelme/ObjectStorage/rabbitmq"
 )
 
+// Locate 定位文件
 func Locate(name string) bool {
 	_, err := os.Stat(name)
 	return !os.IsNotExist(err)
 }
 
+// StartLocate 监听定位消息的协程
 func StartLocate() {
 	q := rabbitmq.New(conf.RabbitMQServer)
 	defer q.Close()

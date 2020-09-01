@@ -12,7 +12,7 @@ func StartHeartBeat() {
 	q := rabbitmq.New(conf.RabbitMQServer)
 	defer q.Close()
 	for {
-		q.Publish(conf.ApiServersExchange, conf.ListenAddress)
+		q.Publish(conf.APIServersExchange, conf.ListenAddress)
 		time.Sleep(5 * time.Second)
 	}
 }

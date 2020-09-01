@@ -9,6 +9,7 @@ import (
 )
 
 
+// Locate 从数据节点上定位某个文件
 func Locate(name string) string {
 	q := rabbitmq.New(conf.RabbitMQServer)
 	q.Publish(conf.DataServersExchange, name)
@@ -23,6 +24,7 @@ func Locate(name string) string {
 	return s
 }
 
+// Exist 判断某个文件是否存在
 func Exist(name string) bool {
 	return Locate(name) != ""
 }

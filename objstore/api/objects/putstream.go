@@ -6,12 +6,13 @@ import (
 	"net/http"
 )
 
-// 数据节点的写入数据流
+// PutStream 数据节点的写入数据流
 type PutStream struct {
 	writer *io.PipeWriter
 	c      chan error
 }
 
+// NewPutStream new
 func NewPutStream(server, object string) *PutStream {
 	reader, writer := io.Pipe()
 	c := make(chan error)
@@ -30,10 +31,12 @@ func NewPutStream(server, object string) *PutStream {
 	return &PutStream{writer, c}
 }
 
+// Write 数据流写入文件数据
 func (w *PutStream) Write(p []byte) (n int, err error) {
 	return w.writer.Write(p)
 }
 
+// Close 关闭数据流
 func (w *PutStream) Close() error {
 	w.writer.Close()
 	return <-w.c

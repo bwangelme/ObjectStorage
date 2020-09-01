@@ -11,11 +11,13 @@ import (
 	"github.com/bwangelme/ObjectStorage/rabbitmq"
 )
 
+// DataNodes 所有数据节点的映射
 type DataNodes struct {
 	DataNodesMap map[string]time.Time
 	mutex        *sync.Mutex
 }
 
+// NewDataNodes 新建数据节点映射结构
 func NewDataNodes() *DataNodes {
 	return &DataNodes{
 		DataNodesMap: make(map[string]time.Time),
@@ -23,12 +25,14 @@ func NewDataNodes() *DataNodes {
 	}
 }
 
+// Add 添加数据节点
 func (d *DataNodes) Add(serverNode string) {
 	d.mutex.Lock()
 	d.DataNodesMap[serverNode] = time.Now()
 	d.mutex.Unlock()
 }
 
+// RemoveExpiredNodes 删除没有更新的数据节点
 func (d *DataNodes) RemoveExpiredNodes() {
 	d.mutex.Lock()
 	for s, t := range d.DataNodesMap {
@@ -39,11 +43,12 @@ func (d *DataNodes) RemoveExpiredNodes() {
 	d.mutex.Unlock()
 }
 
+// All 获取所有数据节点
 func (d *DataNodes) All() []string {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 	ds := make([]string, 0)
-	for s, _ := range d.DataNodesMap {
+	for s := range d.DataNodesMap {
 		ds = append(ds, s)
 	}
 	return ds
@@ -60,7 +65,7 @@ func ListenHeartBeat() {
 	q := rabbitmq.New(conf.RabbitMQServer)
 	defer q.Close()
 
-	q.Bind(conf.ApiServersExchange)
+	q.Bind(conf.APIServersExchange)
 	c := q.Consume()
 	go removeExpiredDataNodes()
 	for msg := range c {
@@ -96,4 +101,3 @@ func removeExpiredDataNodes() {
 		defaultDataNodes.RemoveExpiredNodes()
 	}
 }
-

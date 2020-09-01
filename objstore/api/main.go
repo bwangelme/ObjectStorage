@@ -9,6 +9,7 @@ import (
 	"github.com/bwangelme/ObjectStorage/conf"
 )
 
+// Main api 功能的入口
 func Main() {
 	go heartbeat.ListenHeartBeat()
 	http.HandleFunc("/locate/", view.LocateHandler)

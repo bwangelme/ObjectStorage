@@ -10,6 +10,7 @@ import (
 	"github.com/bwangelme/ObjectStorage/data/objects"
 )
 
+// Main date 功能入口
 func Main() {
 	go heartbeat.StartHeartBeat()
 	go locate.StartLocate()

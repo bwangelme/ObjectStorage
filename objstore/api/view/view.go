@@ -10,6 +10,7 @@ import (
 	"github.com/bwangelme/ObjectStorage/api/objects"
 )
 
+// LocateHandler 定位文件的接口
 func LocateHandler(w http.ResponseWriter, r *http.Request) {
 	m := r.Method
 	if m != http.MethodGet {
@@ -25,6 +26,7 @@ func LocateHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
+// AllNodesHandler 获取所有数据节点的接口
 func AllNodesHandler(w http.ResponseWriter, r *http.Request) {
 	m := r.Method
 	if m != http.MethodGet {
@@ -38,6 +40,7 @@ func AllNodesHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
+// ObjectsHandler 文件读写的接口
 func ObjectsHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPut:
