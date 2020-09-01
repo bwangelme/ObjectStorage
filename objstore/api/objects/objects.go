@@ -10,7 +10,18 @@ import (
 	"github.com/bwangelme/ObjectStorage/api/heartbeat"
 )
 
+// Put 向数据节点写入文件
 func Put(w http.ResponseWriter, r *http.Request) {
+	object := strings.Split(r.URL.EscapedPath(), "/")[2]
+	c, e := storeObject(r.Body, object)
+	if e != nil {
+		log.Println(e)
+	}
+	w.WriteHeader(c)
+}
+
+// Get 从数据节点获取文件
+func Get(w http.ResponseWriter, r *http.Request) {
 	object := strings.Split(r.URL.EscapedPath(), "/")[2]
 	c, e := storeObject(r.Body, object)
 	if e != nil {

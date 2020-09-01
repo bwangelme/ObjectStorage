@@ -39,12 +39,15 @@ func AllNodesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ObjectsHandler(w http.ResponseWriter, r *http.Request) {
-	m := r.Method
-	if m == http.MethodPut {
+	switch r.Method {
+	case http.MethodPut:
 		objects.Put(w, r)
 		return
+	case http.MethodGet:
+		objects.Get(w, r)
+		return
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
 	}
-	// TODO: get 方法
-	w.WriteHeader(http.StatusMethodNotAllowed)
-	return
 }
