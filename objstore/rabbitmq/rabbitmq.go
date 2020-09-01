@@ -47,6 +47,7 @@ func New(serverAddr string) *RabbitMQ {
 
 //Close 关闭 RabbitMQ 客户端
 func (q *RabbitMQ) Close() {
+	// TODO: 是否也要将连接关闭
 	q.channel.Close()
 }
 

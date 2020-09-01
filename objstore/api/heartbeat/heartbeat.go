@@ -1,10 +1,8 @@
 package heartbeat
 
 import (
-	"encoding/json"
 	"log"
 	"math/rand"
-	"net/http"
 	"strconv"
 	"sync"
 	"time"
@@ -86,6 +84,11 @@ func ChooseRandomDataNode() string {
 	return ds[rand.Intn(n)]
 }
 
+// AllNodes 返回所有数据节点的地址
+func AllNodes() []string {
+	return defaultDataNodes.All()
+}
+
 //removeExpiredDataNodes 删除掉10秒未刷新的数据节点
 func removeExpiredDataNodes() {
 	for {
@@ -94,16 +97,3 @@ func removeExpiredDataNodes() {
 	}
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
-	m := r.Method
-	if m != http.MethodGet {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return
-	}
-	nodes := defaultDataNodes.All()
-	res := map[string]interface{}{
-		"nodes": nodes,
-	}
-	b, _ := json.Marshal(res)
-	w.Write(b)
-}
