@@ -13,3 +13,6 @@
 *.out
 
 tmp/
+storage_root/
+objstore/main
+objstore/demo

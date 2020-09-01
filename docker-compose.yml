@@ -1,0 +1,70 @@
+version: '2.2'
+services:
+  data1:
+    image: bwangel/objstorage:v0.1
+    container_name: data1
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=data1:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=true
+    volumes:
+      - data1:/storage_root/
+  data2:
+    image: bwangel/objstorage:v0.1
+    container_name: data2
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=data2:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=true
+    volumes:
+      - data2:/storage_root/
+  data3:
+    image: bwangel/objstorage:v0.1
+    container_name: data3
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=data3:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=true
+    volumes:
+      - data3:/storage_root/
+  api1:
+    image: bwangel/objstorage:v0.1
+    container_name: api1
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=api1:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=false
+  api2:
+    image: bwangel/objstorage:v0.1
+    container_name: api2
+    networks:
+      - objstorage
+    environment:
+      - LISTEN_ADDRESS=api2:8080
+      - STORAGE_ROOT=/storage_root/
+      - RABBITMQ_SERVER=amqp://objs:objs@192.168.0.108:5672//objs
+      - IS_DATA_NODE=false
+
+volumes:
+  data1:
+    driver: local
+  data2:
+    driver: local
+  data3:
+    driver: local
+
+networks:
+  objstorage:
+    driver: bridge
